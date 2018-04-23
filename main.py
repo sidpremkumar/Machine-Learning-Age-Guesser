@@ -1,7 +1,7 @@
 from __future__ import print_function
 from sklearn import tree
 import pandas as pd
-
+import csv
 
 
 
@@ -44,18 +44,7 @@ def createTrainingData(df):
 
 
 
-#labels = createLables(df)
 
-
-
-#clf = tree.DecisionTreeClassifier()
-#clf = clf.fit(features,labels)
-
-
-
-#print(clf.predict([[10,7,1,7,2]]))
-
-#homemade decision free
 
 header = ["q1", "q2", "q3","q4","q5","label"]
 
@@ -184,33 +173,13 @@ def build_tree(rows):
 
 
 
-def print_tree(node, spacing=""):
-    # Base case: we've reached a leaf
-    if isinstance(node, Leaf):
-        print (spacing + "Predict", node.predictions)
-        return
-
-    # Print the question at this node
-    print (spacing + str(node.question))
-
-    # Call this function recursively on the true branch
-    print (spacing + '--> True:')
-    print_tree(node.true_branch, spacing + "  ")
-
-    # Call this function recursively on the false branch
-    print (spacing + '--> False:')
-    print_tree(node.false_branch, spacing + "  ")
 
 def classify(row, node):
-    """See the 'rules of recursion' above."""
-
-    # Base case: we've reached a leaf
+    # if were at a leaf node
     if isinstance(node, Leaf):
         return node.predictions
 
-    # Decide whether to follow the true-branch or the false-branch.
-    # Compare the feature / value stored in the node,
-    # to the example we're considering.
+    #which way to move? left or right?
     if node.question.match(row):
         return classify(row, node.true_branch)
     else:
@@ -223,10 +192,11 @@ def return_response(input):
     my_tree = build_tree(training_data)
     return classify(input,my_tree)
 
+def addtocsv(user_input):
+    with open('BUS3 Phil Final Responses - New typeform.csv', 'a') as form:
+        writer=csv.writer(form)
+        writer.writerow([])
+        writer.writerow(user_input)
 
-test = [4,4,1,4,4]
-print(test)
-response = return_response(test)
-print(response)
 
 

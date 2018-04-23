@@ -1,7 +1,9 @@
 import main
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, session, make_response
+
 
 app = Flask(__name__, static_url_path='/static')
+app.secret_key = "1201"
 
 @app.route('/')
 def index():
@@ -25,22 +27,25 @@ def input():
     question4 = request.form['question4']
     question5 = request.form['question5']
     user_input = [int(question1),int(question2),int(question3),int(question4),int(question5)]
-
+    session['user_input'] = user_input
     result = main.return_response(user_input)
     age = list(result)[0]
     confidence = list(result.values())[0]
+    session['confidence'] = confidence
+    session['age'] = age
     print(result)
     return render_template('result.html', age=age,confidence=confidence)
 
-@app.route("/download/templates/Final Writeup.pdf")
-def DownloadLogFile (path = None):
-    if path is None:
-        self.Error(400)
-    try:
-        return send_file('templates/Final Writeup.pdf', as_attachment=True)
-    except Exception as e:
-        self.log.exception(e)
-        self.Error(400)
+@app.route('/ageinput/', methods=['POST'])
+def ageinput():
+    age = request.form['age']
+    user_input = session.get('user_input', 1201)
+    confidence = session.get('confidence', 1201)
+    theage = session.get('age', 1201)
+    user_input.append(int(age))
+    main.addtocsv(user_input)
+    return render_template('result2.html', age=theage, confidence=confidence)
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0',port=5000)
