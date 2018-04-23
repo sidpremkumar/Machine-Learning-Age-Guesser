@@ -1,5 +1,5 @@
 # Machine Learning Age Guesser
-###How do I work? 
+### How do I work? 
 I use a decision tree to make decision on how I guess your age. 
 
 To do this I first have to create a classifier. A classifier is a tool used to take an input, and convert it to an appropriate age. 
