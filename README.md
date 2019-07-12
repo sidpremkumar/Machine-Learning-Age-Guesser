@@ -1,5 +1,5 @@
 # Machine Learning Age Guesser
-Check it out [here](https://sidpremkumar.com/MLAgeGuesser.html)
+Check out a live version [here](https://sidpremkumar.com/MLAgeGuesser.html)
 ### How do I work? 
 I use a decision tree to make decision on how I guess your age. 
 
